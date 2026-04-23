@@ -19,11 +19,7 @@ class GestorTest {
 
         Gestor gestor = new Gestor();
 
-        ArrayList<Integer> coord = new ArrayList<>();
-        coord.add(2);
-        coord.add(3);
-
-        gestor.registrarMaquina(1, coord, 4, true);
+        gestor.registrarMaquina(1, 0.00f, 1.00f, 20, 20, true);
 
         Maquina maquina = gestor.buscarMaquina(1);
 
@@ -40,7 +36,7 @@ class GestorTest {
         coord.add(2);
         coord.add(3);
 
-        gestor.registrarMaquina(1, coord, 4, true);
+        gestor.registrarMaquina(1, 0.00f, 1.00f, 20, 20, true);
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));

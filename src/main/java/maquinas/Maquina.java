@@ -2,6 +2,7 @@ package maquinas;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.time.*;
 
 public class Maquina {
 	private int id;
@@ -11,6 +12,9 @@ public class Maquina {
 	private HashMap<String, Integer> inventario = new HashMap<>();
 	private ArrayList<Producto> productos = new ArrayList<>();
 	private boolean estaOperativa;
+	private HashMap<String, Integer> ventas = new HashMap<>();
+	private LocalDate fechaReposicion;
+	
 	
 	public Maquina(int id, float coordenadaX, float coordenadaY, int capacidad, int slots, boolean estaOperativa) {
 		this.id=id;
@@ -20,6 +24,7 @@ public class Maquina {
 		this.capacidad=capacidad;
 		this.slots = slots;
 		this.estaOperativa=estaOperativa;
+		this.fechaReposicion=null;
 	}
 
     public int getId(){
@@ -40,6 +45,11 @@ public class Maquina {
     
     public void venderProducto(Producto producto,int cantidad) {
     	actualizarMaquina(this.capacidad,true);
+    	
+    	Integer num = ventas.get(producto);
+    	if(num==null) num=cantidad;
+    	ventas.put(producto.getNombre(), num);
+    	
     	notificarVenta(producto,cantidad);
     	
     }
@@ -59,6 +69,29 @@ public class Maquina {
     	//sc.close();
     }
     
+    public void setFechaReposicion(LocalDate fechRep) {
+    	this.fechaReposicion=fechRep;
+    }
+    
+    public LocalDate getFechaReposicion() {
+    	return this.fechaReposicion;
+    }
+    
+    public HashMap<String, Integer> getVentas() {
+    	return this.ventas;
+    }
+    
+    public void setVentas(HashMap<String, Integer> vent) {
+    	this.ventas=vent;
+    }
+    
+    public HashMap<String, Integer> getInventario() {
+    	return this.inventario;
+    }
+    
+    public void setInventario(HashMap<String, Integer> invent) {
+    	this.inventario=invent;
+    }
 
 }
 
