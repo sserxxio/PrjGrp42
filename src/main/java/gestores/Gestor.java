@@ -13,9 +13,13 @@ public class Gestor {
         this.maquinas = new ArrayList<>();
     }
 
-    public void registrarMaquina(int id, ArrayList<Integer> coord, int capacidad, Boolean estaOperativa) {
-        Maquina m = new Maquina(id, coord, capacidad, estaOperativa);
+    public void registrarMaquina(int id, float coordX, float coordY, int capacidad, int slots, boolean estaOperativa) {
+        Maquina m = new Maquina(id, coordX, coordY, capacidad, slots, estaOperativa);
+        m.inicializarStock();
         maquinas.add(m);
+    }
+    public void eliminarMaquina(int id) {
+    	this.maquinas.remove(buscarMaquina(id));
     }
 
     public Maquina buscarMaquina(int id) {

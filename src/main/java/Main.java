@@ -51,23 +51,19 @@ public class Main {
             else if (comando.equals("r") || comando.equals("registrar")) {
 
                 try {
-                    if (partes.length != 6) {
+                    if (partes.length != 7) {
                         System.out.println("Error: numero incorrecto de argumentos.");
                         System.out.println("Uso: registrar <id> <x> <y> <capacidad> <operativa>");
                         continue;
                     }
 
                     int id = Integer.parseInt(partes[1]);
-                    int x = Integer.parseInt(partes[2]);
-                    int y = Integer.parseInt(partes[3]);
+                    float x = Float.parseFloat(partes[2]);
+                    float y = Float.parseFloat(partes[3]);
                     int capacidad = Integer.parseInt(partes[4]);
-                    boolean operativa = Boolean.parseBoolean(partes[5]);
-
-                    ArrayList<Integer> coord = new ArrayList<>();
-                    coord.add(x);
-                    coord.add(y);
-
-                    gestor.registrarMaquina(id, coord, capacidad, operativa);
+                    int slots = Integer.parseInt(partes[5]);
+                    boolean operativa = Boolean.parseBoolean(partes[6]);
+                    gestor.registrarMaquina(id, x, y, capacidad, slots, operativa);
 
                     System.out.println("Máquina registrada correctamente.");
 
@@ -94,7 +90,6 @@ public class Main {
                     System.out.println(e);
                 }
             }
-
             //Cualquier otra string
             else {
                 System.out.println("Comando desconocido. Usa 'help' o 'h'.");
