@@ -24,6 +24,23 @@ public class Maquina {
         		"\nCapacidad: " + capacidad +
         		"\nOperativa: " + estaOperativa);
     }
+    
+    public void actualizarMaquina(int capacidad, boolean estaOperativa) {
+    	this.capacidad = capacidad;
+    	this.estaOperativa=estaOperativa;
+    }
+    
+    public void venderProducto(Producto producto,int cantidad) {
+    	actualizarMaquina(this.capacidad,true);
+    	notificarVenta(producto,cantidad);
+    	
+    }
+    
+    public void notificarVenta(Producto producto,int cantidad) {
+    	System.out.println("Se han vendido "+ cantidad +" del producto"+producto.getNombre());
+    }
+    
+    
 
 }
 
