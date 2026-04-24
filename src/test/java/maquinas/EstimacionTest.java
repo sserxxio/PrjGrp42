@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.time.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -21,7 +22,14 @@ class EstimacionTest {
 	@DisplayName("Prueba de Estimación: Calcular Estimaciones cuando ventas es 0")
 	@Test
 	void testSinVentas() {
-	    Maquina maquina = new Maquina(1, 0.00f, 1.00f, 20, 20, true);
+	    	    
+	    ArrayList<String> productos = new ArrayList<>();
+        productos.add("CocaCola");
+        productos.add("Pepsi");
+        productos.add("Pelotazos");
+
+        Maquina maquina = new Maquina(1, 0.00f, 1.00f, 20, true, productos);
+        
 	    Producto producto = new Producto("Botella", "CocaCola");
 
 	    maquina.setFechaReposicion(LocalDate.now().minusDays(10));
@@ -40,7 +48,14 @@ class EstimacionTest {
 	@Test
 	@DisplayName("Calcula correctamente los días restantes con ventas")
 	void testCalculoNormal() {
-		Maquina maquina = new Maquina(1, 0.00f, 1.00f, 20, 20, true);
+		
+	    ArrayList<String> productos = new ArrayList<>();
+        productos.add("CocaCola");
+        productos.add("Pepsi");
+        productos.add("Pelotazos");
+
+        Maquina maquina = new Maquina(1, 0.00f, 1.00f, 20, true, productos);
+        
 	    Producto producto = new Producto("Botella", "CocaCola");
 
 	    maquina.setFechaReposicion(LocalDate.now().minusDays(10));
