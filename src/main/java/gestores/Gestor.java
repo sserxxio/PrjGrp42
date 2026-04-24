@@ -1,6 +1,8 @@
 package gestores;
 
 import maquinas.Maquina;
+import maquinas.Producto;
+import maquinas.Estimacion;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -41,5 +43,12 @@ public class Gestor {
             System.out.println("Máquina encontrada:");
             m.informacion();
         }
+    }
+    public boolean notificarReposicion(Maquina m, Producto p) {
+    	if(Estimacion.calcularEstimacion(m, p) <2) {
+    		return true;
+    	}else {
+    		return false;
+    	}
     }
 }
