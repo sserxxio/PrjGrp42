@@ -7,7 +7,7 @@ public class Estimacion {
 
 	
 	
-	int calcularEstimacion(Maquina maquina, Producto producto) {
+	public static int calcularEstimacion(Maquina maquina, Producto producto) {
 		 LocalDate hoy = LocalDate.now();
 		 
 		 //Recuperamos el tiempo desde la última reposición
