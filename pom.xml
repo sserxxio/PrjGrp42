@@ -33,6 +33,13 @@
             <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
+        
+        <!-- Lector de Json -->
+        <dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20240303</version>
+		</dependency>
 
     </dependencies>
 

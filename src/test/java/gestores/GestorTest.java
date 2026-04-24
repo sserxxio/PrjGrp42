@@ -13,13 +13,18 @@ import org.junit.jupiter.api.Test;
 
 class GestorTest {
 
-    @DisplayName("Prueba de Gestor: Añadir maquina")
+	@DisplayName("Prueba de Gestor: Añadir maquina")
     @Test
     void testRegistrarMaquina() {
 
         Gestor gestor = new Gestor();
 
-        gestor.registrarMaquina(1, 0.00f, 1.00f, 20, 20, true);
+        ArrayList<String> productos = new ArrayList<>();
+        productos.add("CocaCola");
+        productos.add("Pepsi");
+        productos.add("Pelotazos");
+
+        gestor.registrarMaquina(1, 0.00f, 1.00f, 20, true, productos);
 
         Maquina maquina = gestor.buscarMaquina(1);
 
@@ -31,12 +36,13 @@ class GestorTest {
     void testVerMaquina() {
 
     	Gestor gestor = new Gestor();
+        
+        ArrayList<String> productos = new ArrayList<>();
+        productos.add("CocaCola");
+        productos.add("Pepsi");
+        productos.add("Pelotazos");
 
-        ArrayList<Integer> coord = new ArrayList<>();
-        coord.add(2);
-        coord.add(3);
-
-        gestor.registrarMaquina(1, 0.00f, 1.00f, 20, 20, true);
+        gestor.registrarMaquina(1, 0.00f, 1.00f, 20, true, productos);
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
@@ -63,5 +69,4 @@ class GestorTest {
 
         assertTrue(salida.contains("Error: no existe una máquina"));
     }
-    
 }
