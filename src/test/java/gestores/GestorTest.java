@@ -23,6 +23,7 @@ class GestorTest {
         productos.add("CocaCola");
         productos.add("Pepsi");
         productos.add("Pelotazos");
+        
 
         gestor.registrarMaquina(1, 0.00f, 1.00f, 20, true, productos);
 
@@ -47,8 +48,12 @@ class GestorTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
 
-        gestor.mostrarInformacion(1);
-
+        try {
+			gestor.mostrarInformacion(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
         String salida = outContent.toString();
 
         assertTrue(salida.contains("Máquina encontrada"));
@@ -59,14 +64,9 @@ class GestorTest {
     void testVerMaquinaFalla() {
 
         Gestor gestor = new Gestor();
-
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-
-        gestor.mostrarInformacion(999);
-
-        String salida = outContent.toString();
-
-        assertTrue(salida.contains("Error: no existe una máquina"));
+        
+        assertThrows(Exception.class, () -> {
+        	gestor.mostrarInformacion(999);
+        });
     }
 }

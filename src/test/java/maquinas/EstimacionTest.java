@@ -68,7 +68,7 @@ class EstimacionTest {
 	    temporal.put("CocaCola", 20);
 
 	    maquina.setInventario(temporal);
-
+	    
 	    int resultado = e.calcularEstimacion(maquina, producto);
 
 	    assertEquals(4, resultado);
