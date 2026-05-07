@@ -19,16 +19,7 @@ public class Gestor {
     public Gestor() {
         this.maquinas = new ArrayList<>();
     }
-
-    public void registrarMaquina(int id, float coordX, float coordY, int capacidad, boolean estaOperativa, ArrayList<Producto> productos) {
-        Maquina m = new Maquina(id, coordX, coordY, capacidad, estaOperativa, productos);
-        maquinas.add(m);
-    }
     
-    public void eliminarMaquina(int id) {
-    	this.maquinas.remove(buscarMaquina(id));
-    }
-
     public Maquina buscarMaquina(int id) {
         for (Maquina m : maquinas) {
             if (m.getId() == id) {
@@ -36,6 +27,18 @@ public class Gestor {
             }
         }
         return null;
+    }
+
+    public void registrarMaquina(int id, float coordX, float coordY, int capacidad, boolean estaOperativa, ArrayList<Producto> productos) {
+    	if(buscarMaquina(id)!=null) {
+    		 throw new IllegalArgumentException("Ya hay una máquina registrada con el id "+ id);
+    	}
+        Maquina m = new Maquina(id, coordX, coordY, capacidad, estaOperativa, productos);
+        maquinas.add(m);
+    }
+    
+    public void eliminarMaquina(int id) {
+    	this.maquinas.remove(buscarMaquina(id));
     }
     
     public void mostrarInformacion(int id) {
