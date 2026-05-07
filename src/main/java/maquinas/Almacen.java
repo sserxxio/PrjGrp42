@@ -1,6 +1,7 @@
 package maquinas;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Almacen {
 	
@@ -32,5 +33,12 @@ public class Almacen {
 		this.productos.add(producto);
 	}
 	
+	public void reponerMaquina(Maquina maquina,Producto producto) {
+		HashMap<String, Integer> inventario = maquina.getInventario();
+		if(productos.contains(producto)) {
+			inventario.put(producto.getNombre(), maquina.getCapacidad());
+			maquina.setInventario(inventario);
+		}
+	}
 	
 }

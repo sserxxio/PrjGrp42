@@ -1,9 +1,10 @@
 package gestores;
 
 import maquinas.Maquina;
+
 import maquinas.Producto;
 import maquinas.Estimacion;
-
+import maquinas.Almacen;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileReader;
@@ -11,10 +12,13 @@ import java.io.FileReader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import maquinas.Maquina;
+import maquinas.Maquina;
 
 public class Gestor {
 
     private ArrayList<Maquina> maquinas;
+    private ArrayList<Almacen> almacenes;
 
     public Gestor() {
         this.maquinas = new ArrayList<>();
@@ -95,6 +99,16 @@ public class Gestor {
     		return true;
     	}else {
     		return false;
+    	}
+    }
+    private void crearAlmacen(String nombre, ArrayList<Producto> productos) {
+    	this.almacenes.add(new Almacen(nombre, productos));
+    }
+    private void reponerMaquina(String almacen, Maquina maquina, Producto producto) {
+    	for(Almacen a: this.almacenes) {
+    		if(a.getNombre().equals(almacen)) {
+    			a.reponerMaquina(maquina, producto);
+    		}
     	}
     }
 }
