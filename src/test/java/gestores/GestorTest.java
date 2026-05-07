@@ -13,16 +13,16 @@ import org.junit.jupiter.api.Test;
 
 class GestorTest {
 
-	@DisplayName("Prueba de Gestor: Añadir maquina")
+	@DisplayName("Prueba registrarMaquina: Prueba válida")
     @Test
     void testRegistrarMaquina() {
 
         Gestor gestor = new Gestor();
 
-        ArrayList<String> productos = new ArrayList<>();
-        productos.add("CocaCola");
-        productos.add("Pepsi");
-        productos.add("Pelotazos");
+        ArrayList<Producto> productos = new ArrayList<>();
+        productos.add(new Producto("Botella", "CocaCola"));
+        productos.add(new Producto("Botella", "Pepsi"));
+        productos.add(new Producto("Snack", "Pelotazos"));
 
         gestor.registrarMaquina(1, 0.00f, 1.00f, 20, true, productos);
 
@@ -37,10 +37,10 @@ class GestorTest {
 
     	Gestor gestor = new Gestor();
         
-        ArrayList<String> productos = new ArrayList<>();
-        productos.add("CocaCola");
-        productos.add("Pepsi");
-        productos.add("Pelotazos");
+    	ArrayList<Producto> productos = new ArrayList<>();
+        productos.add(new Producto("Botella", "CocaCola"));
+        productos.add(new Producto("Botella", "Pepsi"));
+        productos.add(new Producto("Snack", "Pelotazos"));
 
         gestor.registrarMaquina(1, 0.00f, 1.00f, 20, true, productos);
 

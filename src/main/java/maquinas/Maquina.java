@@ -16,7 +16,7 @@ public class Maquina {
 	private LocalDate fechaReposicion;
 	
 	
-	public Maquina(int id, float coordenadaX, float coordenadaY, int capacidad, boolean estaOperativa, ArrayList<String> productos) {
+	public Maquina(int id, float coordenadaX, float coordenadaY, int capacidad, boolean estaOperativa, ArrayList<Producto> productos) {
 		this.id=id;
 		this.coordenadas= new float[2];
 		this.coordenadas[0] = coordenadaX;
@@ -24,12 +24,8 @@ public class Maquina {
 		this.capacidad=capacidad;
 		this.slots = productos.size();
 		this.estaOperativa=estaOperativa;
+		this.productos=productos;
 		this.fechaReposicion=null;
-		
-		for(int i =0; i<this.slots; i++) {
-    		this.productos.add(new Producto("botella", productos.get(i)));
-    		this.inventario.put(productos.get(i), this.capacidad);
-    	}
 	}
 
     public int getId(){

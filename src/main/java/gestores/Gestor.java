@@ -20,10 +20,11 @@ public class Gestor {
         this.maquinas = new ArrayList<>();
     }
 
-    public void registrarMaquina(int id, float coordX, float coordY, int capacidad, boolean estaOperativa, ArrayList<String> productos) {
+    public void registrarMaquina(int id, float coordX, float coordY, int capacidad, boolean estaOperativa, ArrayList<Producto> productos) {
         Maquina m = new Maquina(id, coordX, coordY, capacidad, estaOperativa, productos);
         maquinas.add(m);
     }
+    
     public void eliminarMaquina(int id) {
     	this.maquinas.remove(buscarMaquina(id));
     }
@@ -66,10 +67,10 @@ public class Gestor {
 
             JSONArray productosJSON = obj.getJSONArray("productos");
 
-            ArrayList<String> productos = new ArrayList<>();
+            ArrayList<Producto> productos = new ArrayList<>();
 
             for (int i = 0; i < productosJSON.length(); i++) {
-                productos.add(productosJSON.getString(i));
+                productos.add(new Producto("botella", productosJSON.getString(i)));
             }
 
             registrarMaquina(
