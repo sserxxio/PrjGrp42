@@ -101,4 +101,11 @@ public class Gestor {
     		return false;
     	}
     }
+    
+    
+    public void listarMaquinasReposicion() {
+    	for(Maquina m:maquinas) {
+    		m.comprobarNecesidadReposicion();
+    	}
+    }
 }

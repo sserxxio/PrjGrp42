@@ -71,6 +71,14 @@ public class Maquina {
     	System.out.println("Se han vendido una unidad del producto "+producto.getNombre());
     }
     
+    //Función que comprueba si algún producto de la máquina debe ser repuesto
+    public void comprobarNecesidadReposicion() {
+    	for(Producto p:productos) {
+    		int dias = Estimacion.calcularEstimacion(this, p);
+    		if(dias<=3) System.out.println("Máquina" + id + ": Reposición necesaria para el producto " + p.getNombre());
+    	}
+    }
+    
     public void setFechaReposicion(LocalDate fechRep) {
     	 LocalDate hoy = LocalDate.now();
     	 if((ChronoUnit.DAYS.between(fechRep, hoy)<0)||fechRep==null) {
