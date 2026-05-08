@@ -8,6 +8,15 @@ public class Estimacion {
 	
 	
 	public static int calcularEstimacion(Maquina maquina, Producto producto) {
+		 if (maquina.getInventario() == null) 
+			 throw new IllegalArgumentException("El inventario no puede ser nulo");
+		 if (maquina.getFechaReposicion() == null) 
+		     throw new IllegalArgumentException("La fecha de reposición no puede ser nula");
+		 if (maquina.getVentas() == null) 
+		     throw new IllegalArgumentException("Las ventas no pueden ser nulas");
+		 if (producto.getNombre() == null || producto.getNombre().isEmpty()) 
+		     throw new IllegalArgumentException("El nombre del producto no puede ser nulo o vacío");
+		
 		 LocalDate hoy = LocalDate.now();
 		 
 		 //Recuperamos el tiempo desde la última reposición

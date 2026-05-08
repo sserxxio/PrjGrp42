@@ -23,10 +23,10 @@ class EstimacionTest {
 	@Test
 	void testSinVentas() {
 	    	    
-	    ArrayList<String> productos = new ArrayList<>();
-        productos.add("CocaCola");
-        productos.add("Pepsi");
-        productos.add("Pelotazos");
+		ArrayList<Producto> productos = new ArrayList<>();
+        productos.add(new Producto("Botella", "CocaCola"));
+        productos.add(new Producto("Botella", "Pepsi"));
+        productos.add(new Producto("Snack", "Pelotazos"));
 
         Maquina maquina = new Maquina(1, 0.00f, 1.00f, 20, true, productos);
         
@@ -49,10 +49,10 @@ class EstimacionTest {
 	@DisplayName("Calcula correctamente los días restantes con ventas")
 	void testCalculoNormal() {
 		
-	    ArrayList<String> productos = new ArrayList<>();
-        productos.add("CocaCola");
-        productos.add("Pepsi");
-        productos.add("Pelotazos");
+		ArrayList<Producto> productos = new ArrayList<>();
+        productos.add(new Producto("Botella", "CocaCola"));
+        productos.add(new Producto("Botella", "Pepsi"));
+        productos.add(new Producto("Snack", "Pelotazos"));
 
         Maquina maquina = new Maquina(1, 0.00f, 1.00f, 20, true, productos);
         
