@@ -89,4 +89,15 @@ public class Gestor {
     		m.comprobarNecesidadReposicion();
     	}
     }
+    
+    public void listarMaquinasCoordenadas(float xMin, float xMax, float yMin, float yMax) {
+    	for(Maquina m:maquinas) {
+    		float xCord = m.getCoordX();
+    		float yCord = m.getCoordY();
+    		
+    		if(xCord < xMax && xCord > xMin && yCord < yMax && yCord > yMin) {
+    			m.informacion();
+    		}
+    	}
+    }
 }
