@@ -8,12 +8,14 @@ import maquinas.Almacen;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileReader;
+import java.net.URL;
+import java.nio.file.Paths;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import maquinas.Maquina;
-import maquinas.Maquina;
+
 
 public class Gestor {
 
@@ -57,37 +59,47 @@ public class Gestor {
         }
     }
     
-    public void cargarMaquinaDesdeJSON(String rutaArchivo) throws Exception{
+    public void cargarMaquinaDesdeJSON(String rutaArchivo) throws Exception {
 
-        FileReader reader = new FileReader(rutaArchivo);
+        URL resource = getClass().getClassLoader().getResource(rutaArchivo);
+
+        String ruta = Paths.get(resource.toURI()).toFile().getAbsolutePath();
+
+        FileReader reader = new FileReader(ruta);
 
         JSONTokener tokener = new JSONTokener(reader);
-        JSONObject obj = new JSONObject(tokener);
 
-        int id = obj.getInt("id");
-        float coordenadaX = obj.getFloat("coordenadaX");
-        float coordenadaY = obj.getFloat("coordenadaY");
-        int capacidad = obj.getInt("capacidad");
-        boolean estaOperativa = obj.getBoolean("estaOperativa");
+        JSONArray maquinasJSON = new JSONArray(tokener);
 
-        JSONArray productosJSON = obj.getJSONArray("productos");
+        for (int j = 0; j < maquinasJSON.length(); j++) {
 
-        ArrayList<Producto> productos = new ArrayList<>();
+            JSONObject obj = maquinasJSON.getJSONObject(j);
 
-        for (int i = 0; i < productosJSON.length(); i++) {
-            productos.add(new Producto("botella", productosJSON.getString(i)));
+            int id = obj.getInt("id");
+            float coordenadaX = obj.getFloat("coordenadaX");
+            float coordenadaY = obj.getFloat("coordenadaY");
+            int capacidad = obj.getInt("capacidad");
+            boolean estaOperativa = obj.getBoolean("estaOperativa");
+
+            JSONArray productosJSON = obj.getJSONArray("productos");
+
+            ArrayList<Producto> productos = new ArrayList<>();
+
+            for (int i = 0; i < productosJSON.length(); i++) {
+                productos.add(new Producto("botella", productosJSON.getString(i)));
+            }
+
+            registrarMaquina(
+                id,
+                coordenadaX,
+                coordenadaY,
+                capacidad,
+                estaOperativa,
+                productos
+            );
         }
 
-        registrarMaquina(
-            id,
-            coordenadaX,
-            coordenadaY,
-            capacidad,
-            estaOperativa,
-            productos
-        );
-
-        System.out.println("Máquina cargada correctamente desde JSON.");
+        System.out.println("Máquinas cargadas correctamente desde JSON.");
 
         reader.close();
     }
@@ -102,11 +114,14 @@ public class Gestor {
     private void crearAlmacen(String nombre, ArrayList<Producto> productos) {
     	this.almacenes.add(new Almacen(nombre, productos));
     }
+    
     private void reponerMaquina(String almacen, Maquina maquina, Producto producto) {
     	for(Almacen a: this.almacenes) {
     		if(a.getNombre().equals(almacen)) {
     			a.reponerMaquina(maquina, producto);
     		}
+    	}
+    }
     
     
     public void listarMaquinasReposicion() {

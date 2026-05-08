@@ -37,9 +37,6 @@ public class Maquina {
     public int getId(){
         return id;
     }
-    public int getCapacidad() {
-    	return this.capacidad;
-    }
 
     public void informacion(){
         System.out.println("\nID: " + id + 

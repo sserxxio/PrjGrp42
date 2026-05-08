@@ -107,12 +107,22 @@ class GestorTest {
         });
     }
     
-    @DisplayName("Prueba de Gestor: Cargar maquinas de archivo")
+    @DisplayName("Prueba de Gestor: Cargar maquinas de archivo json")
     @Test
     void testCargarMaquinas() {
         
         assertDoesNotThrow(() -> {
         	gestor.cargarMaquinaDesdeJSON("maquinas.json");
+        	gestor.buscarMaquina(1);
+        });
+    }
+    
+    @DisplayName("Prueba de Gestor: Cargar maquinas de archivo txt")
+    @Test
+    void testCargarMaquinasTxt() {
+        
+        assertDoesNotThrow(() -> {
+        	gestor.cargarMaquinaDesdeJSON("maquinas.txt");
         	gestor.buscarMaquina(1);
         });
     }
@@ -125,15 +135,7 @@ class GestorTest {
 	    });
     }
     
-    @DisplayName("Prueba de Gestor: Cargar maquinas de archivo inexistente")
-    @Test
-    void testCargarMaquinasTxt() {
-    	assertThrows(Exception.class, () -> {
-    		gestor.cargarMaquinaDesdeJSON("maquinas.txt");
-	    });
-    }
-    
-    @DisplayName("Prueba de Gestor: Cargar maquinas de archivo inexistente")
+    @DisplayName("Prueba de Gestor: Cargar maquinas de archivo json mal formado")
     @Test
     void testCargarMaquinasJsonMal() {
     	assertThrows(Exception.class, () -> {
