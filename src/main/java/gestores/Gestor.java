@@ -45,12 +45,12 @@ public class Gestor {
     	this.maquinas.remove(buscarMaquina(id));
     }
     
-    public void mostrarInformacion(int id) {
+    public void mostrarInformacion(int id) throws Exception {
     	
     	Maquina m = buscarMaquina(id);
     	
     	if (m == null) {
-            System.out.println("Error: no existe una máquina con ID " + id);
+            throw new Exception();
         } else {
             System.out.println("Máquina encontrada:");
             m.informacion();
