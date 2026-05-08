@@ -78,34 +78,66 @@ class GestorTest {
 	
 	
     
-    @DisplayName("Prueba de Gestor: Ver maquina")
+	@DisplayName("Prueba de Gestor: Ver maquina")
     @Test
-    void testVerMaquina() {
-
+    void testMostrarInformación() {
 
         gestor.registrarMaquina(1, 0.00f, 1.00f, 20, true, productos);
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
 
-        gestor.mostrarInformacion(1);
-
+        try {
+			gestor.mostrarInformacion(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
         String salida = outContent.toString();
 
         assertTrue(salida.contains("Máquina encontrada"));
     }
     
-    @DisplayName("Prueba de Gestor: Ver maquina falla")
+    @DisplayName("Prueba de Gestor: Ver maquina sin maquina existente")
     @Test
-    void testVerMaquinaFalla() {
-
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-
-        gestor.mostrarInformacion(999);
-
-        String salida = outContent.toString();
-
-        assertTrue(salida.contains("Error: no existe una máquina"));
+    void testMostrarInformaciónNoExiste() {
+        
+        assertThrows(Exception.class, () -> {
+        	gestor.mostrarInformacion(999);
+        });
+    }
+    
+    @DisplayName("Prueba de Gestor: Cargar maquinas de archivo")
+    @Test
+    void testCargarMaquinas() {
+        
+        assertDoesNotThrow(() -> {
+        	gestor.cargarMaquinaDesdeJSON("maquinas.json");
+        	gestor.buscarMaquina(1);
+        });
+    }
+    
+    @DisplayName("Prueba de Gestor: Cargar maquinas de archivo inexistente")
+    @Test
+    void testCargarMaquinasNoExiste() {
+    	assertThrows(Exception.class, () -> {
+    		gestor.cargarMaquinaDesdeJSON("noexiste");
+	    });
+    }
+    
+    @DisplayName("Prueba de Gestor: Cargar maquinas de archivo inexistente")
+    @Test
+    void testCargarMaquinasTxt() {
+    	assertThrows(Exception.class, () -> {
+    		gestor.cargarMaquinaDesdeJSON("maquinas.txt");
+	    });
+    }
+    
+    @DisplayName("Prueba de Gestor: Cargar maquinas de archivo inexistente")
+    @Test
+    void testCargarMaquinasJsonMal() {
+    	assertThrows(Exception.class, () -> {
+    		gestor.cargarMaquinaDesdeJSON("maquinasMal.json");
+	    });
     }
 }
