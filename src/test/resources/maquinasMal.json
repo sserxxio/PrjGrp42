@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "coordenadaX": 12.5,
+    "coordenadaY": 7.8,
+    "capacidad": 100,
+    "estaOperativa": true,
+    "productos": [
+      "ProductoA",
+      "ProductoB",
+      "ProductoC"
+    ]
+  },
+  {
+    "id": 2,
+      "ProductoE"
+    ]
+  },
+  {
+    "id": 3,
+    "coordenadaX": 5.2,
+    "coordenadaY": 18.9,
+    "capacidad": 150,
+    "estaOperativa": true,
+    "productos": [
+      "ProductoF",
+      "ProductoG",
+      "ProductoH",
+      "ProductoI"
+    ]
+  }
+]
