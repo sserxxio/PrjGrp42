@@ -90,7 +90,13 @@ public class Gestor {
     	}
     }
     
-    public void listarMaquinasCoordenadas(float xMin, float xMax, float yMin, float yMax) {
+    public void listarMaquinasCoordenadas(float xMin, float xMax, float yMin, float yMax) throws Exception {
+    	
+    	if(xMax < xMin || yMax < yMin) {
+    		Exception e = new Exception();
+    		throw e;
+    	}
+    	
     	for(Maquina m:maquinas) {
     		float xCord = m.getCoordX();
     		float yCord = m.getCoordY();
