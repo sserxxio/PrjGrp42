@@ -57,45 +57,39 @@ public class Gestor {
         }
     }
     
-    public void cargarMaquinaDesdeJSON(String rutaArchivo) {
+    public void cargarMaquinaDesdeJSON(String rutaArchivo) throws Exception{
 
-        try {
+        FileReader reader = new FileReader(rutaArchivo);
 
-            FileReader reader = new FileReader(rutaArchivo);
+        JSONTokener tokener = new JSONTokener(reader);
+        JSONObject obj = new JSONObject(tokener);
 
-            JSONTokener tokener = new JSONTokener(reader);
-            JSONObject obj = new JSONObject(tokener);
+        int id = obj.getInt("id");
+        float coordenadaX = obj.getFloat("coordenadaX");
+        float coordenadaY = obj.getFloat("coordenadaY");
+        int capacidad = obj.getInt("capacidad");
+        boolean estaOperativa = obj.getBoolean("estaOperativa");
 
-            int id = obj.getInt("id");
-            float coordenadaX = obj.getFloat("coordenadaX");
-            float coordenadaY = obj.getFloat("coordenadaY");
-            int capacidad = obj.getInt("capacidad");
-            boolean estaOperativa = obj.getBoolean("estaOperativa");
+        JSONArray productosJSON = obj.getJSONArray("productos");
 
-            JSONArray productosJSON = obj.getJSONArray("productos");
+        ArrayList<Producto> productos = new ArrayList<>();
 
-            ArrayList<Producto> productos = new ArrayList<>();
-
-            for (int i = 0; i < productosJSON.length(); i++) {
-                productos.add(new Producto("botella", productosJSON.getString(i)));
-            }
-
-            registrarMaquina(
-                id,
-                coordenadaX,
-                coordenadaY,
-                capacidad,
-                estaOperativa,
-                productos
-            );
-
-            System.out.println("Máquina cargada correctamente desde JSON.");
-
-            reader.close();
-
-        } catch (Exception e) {
-            System.out.println("Error al leer JSON: " + e.getMessage());
+        for (int i = 0; i < productosJSON.length(); i++) {
+            productos.add(new Producto("botella", productosJSON.getString(i)));
         }
+
+        registrarMaquina(
+            id,
+            coordenadaX,
+            coordenadaY,
+            capacidad,
+            estaOperativa,
+            productos
+        );
+
+        System.out.println("Máquina cargada correctamente desde JSON.");
+
+        reader.close();
     }
     
     public boolean notificarReposicion(Maquina m, Producto p) {
