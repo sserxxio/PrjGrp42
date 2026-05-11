@@ -9,7 +9,6 @@ public class Maquina {
 	private int id;
 	private float coordenadas[];
 	private int capacidad;
-	private int slots;
 	private HashMap<String, Integer> inventario = new HashMap<>();
 	private ArrayList<Producto> productos = new ArrayList<>();
 	private boolean estaOperativa;
@@ -28,7 +27,6 @@ public class Maquina {
 		this.coordenadas[0] = coordenadaX;
 		this.coordenadas[1] = coordenadaY;
 		this.capacidad=capacidad;
-		this.slots = productos.size();
 		this.estaOperativa=estaOperativa;
 		this.productos=productos;
 		this.fechaReposicion=null;
@@ -42,7 +40,6 @@ public class Maquina {
         System.out.println("\nID: " + id + 
         		"\nCoordenadas: " + coordenadas[0] + ", " + coordenadas[1] + 
         		"\nCapacidad: " + capacidad +
-        		"\nSlots: " + slots +
         		"\nOperativa: " + estaOperativa);
     }
     
@@ -73,9 +70,11 @@ public class Maquina {
     
     //Función que comprueba si algún producto de la máquina debe ser repuesto
     public void comprobarNecesidadReposicion() {
+    	if(productos==null) throw new NullPointerException("La lista de productos no puede ser nula");
+    	
     	for(Producto p:productos) {
     		int dias = Estimacion.calcularEstimacion(this, p);
-    		if(dias<=3) System.out.println("Máquina" + id + ": Reposición necesaria para el producto " + p.getNombre());
+    		if(dias<=3) System.out.println("Máquina " + id + ": Reposición necesaria para el producto " + p.getNombre());
     	}
     }
     
