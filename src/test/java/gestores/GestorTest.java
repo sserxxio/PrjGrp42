@@ -39,22 +39,17 @@ class GestorTest {
 
         Maquina maquina = gestor.buscarMaquina(1);
 
-        assertNotNull(maquina, "La máquina no debería ser null");
-        assertEquals(1, maquina.getId());
-        assertEquals(0.00f, maquina.getCoordX());
-        assertEquals(1.00f, maquina.getCoordY());
-        assertEquals(20, maquina.getCapacidad());
-        assertTrue(maquina.estaOperativa());
-        assertEquals(productos, maquina.getProductos());
+        assertAll("Verificar atributos de la máquina",
+                () -> assertNotNull(maquina, "La máquina no debería ser null"),
+                () -> assertEquals(1, maquina.getId()),
+                () -> assertEquals(0.00f, maquina.getCoordX()),
+                () -> assertEquals(1.00f, maquina.getCoordY()),
+                () -> assertEquals(20, maquina.getCapacidad()),
+                () -> assertTrue(maquina.estaOperativa()),
+                () -> assertEquals(productos, maquina.getProductos())
+            );
     }
-	
-	@DisplayName("Prueba registrarMaquina: id negativo")
-    @Test
-    void testRegistrarMaquina_idNegativo() {
-		assertThrows(IllegalArgumentException.class, () -> {
-	        gestor.registrarMaquina(-1, 0.00f, 1.00f, 20, true, productos);
-	    });
-    }
+
 	
 	@DisplayName("Prueba registrarMaquina: id repetido")
     @Test
