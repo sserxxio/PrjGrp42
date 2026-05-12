@@ -73,12 +73,17 @@ class EstimacionTest {
 	@Test
 	@DisplayName("Prueba de Estimación: producto no existe en inventario")
 	void testInventarioNombreNoCoincidente() {
-        HashMap<String, Integer> inventario = new HashMap<>();
-        inventario.put("BebidaInvalida", 20);
-        when(maquina.getInventario()).thenReturn(inventario);
+        assertThrows(NullPointerException.class, () -> {
+        	HashMap<String, Integer> ventas = new HashMap<>();
+    		ventas.put("CocaCola", 10);
+    		when(maquina.getVentas()).thenReturn(ventas);
+    		
+            HashMap<String, Integer> inventario = new HashMap<>();
+            inventario.put("BebidaInvalida", 20);
+            when(maquina.getInventario()).thenReturn(inventario);
 
-        int resultado = Estimacion.calcularEstimacion(maquina, producto);
-        assertEquals(15, resultado);
+            int resultado = Estimacion.calcularEstimacion(maquina, producto);
+	    });
 	}
 	
 

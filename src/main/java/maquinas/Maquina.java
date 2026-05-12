@@ -9,6 +9,7 @@ public class Maquina {
 	private int id;
 	private float coordenadas[];
 	private int capacidad;
+	private int slots;
 	private HashMap<String, Integer> inventario = new HashMap<>();
 	private ArrayList<Producto> productos = new ArrayList<>();
 	private boolean estaOperativa;
@@ -27,6 +28,8 @@ public class Maquina {
 		this.coordenadas[0] = coordenadaX;
 		this.coordenadas[1] = coordenadaY;
 		this.capacidad=capacidad;
+		if(productos==null || productos.isEmpty()) this.slots=0;
+		else this.slots=productos.size();
 		this.estaOperativa=estaOperativa;
 		this.productos=productos;
 		this.fechaReposicion=null;
@@ -40,6 +43,7 @@ public class Maquina {
         System.out.println("\nID: " + id + 
         		"\nCoordenadas: " + coordenadas[0] + ", " + coordenadas[1] + 
         		"\nCapacidad: " + capacidad +
+        		"\nSlots: " + slots +
         		"\nOperativa: " + estaOperativa);
     }
     
