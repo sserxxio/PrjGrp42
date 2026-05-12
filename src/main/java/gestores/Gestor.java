@@ -84,9 +84,7 @@ public class Gestor {
     }
     
     
-    public void listarMaquinasReposicion() {
-    	if(maquinas==null) throw new NullPointerException("La lista de maquinas no puede ser nula");
-    	
+    public void listarMaquinasReposicion() {    	
     	for(Maquina m:maquinas) {
     		m.comprobarNecesidadReposicion();
     	}
