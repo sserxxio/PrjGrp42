@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import maquinas.Maquina;
 
 
 public class Gestor {
@@ -23,6 +24,7 @@ public class Gestor {
 
     public Gestor() {
         this.maquinas = new ArrayList<>();
+        this.almacenes = new ArrayList<>();
     }
     
     public Maquina buscarMaquina(int id) {
@@ -60,8 +62,47 @@ public class Gestor {
     
     public void cargarMaquinaDesdeJSON(String rutaArchivo) throws Exception {
 
-        DAOCarga dao = new DAOCarga();
-        dao.cargarMaquinaDesdeJSON(this, rutaArchivo);
+        URL resource = getClass().getClassLoader().getResource(rutaArchivo);
+
+        String ruta = Paths.get(resource.toURI()).toFile().getAbsolutePath();
+
+        FileReader reader = new FileReader(ruta);
+
+        JSONTokener tokener = new JSONTokener(reader);
+
+        JSONArray maquinasJSON = new JSONArray(tokener);
+
+        for (int j = 0; j < maquinasJSON.length(); j++) {
+
+            JSONObject obj = maquinasJSON.getJSONObject(j);
+
+            int id = obj.getInt("id");
+            float coordenadaX = obj.getFloat("coordenadaX");
+            float coordenadaY = obj.getFloat("coordenadaY");
+            int capacidad = obj.getInt("capacidad");
+            boolean estaOperativa = obj.getBoolean("estaOperativa");
+
+            JSONArray productosJSON = obj.getJSONArray("productos");
+
+            ArrayList<Producto> productos = new ArrayList<>();
+
+            for (int i = 0; i < productosJSON.length(); i++) {
+                productos.add(new Producto("botella", productosJSON.getString(i)));
+            }
+
+            registrarMaquina(
+                id,
+                coordenadaX,
+                coordenadaY,
+                capacidad,
+                estaOperativa,
+                productos
+            );
+        }
+
+        System.out.println("Máquinas cargadas correctamente desde JSON.");
+
+        reader.close();
     }
     
     public boolean notificarReposicion(Maquina m, Producto p) {
@@ -71,11 +112,20 @@ public class Gestor {
     		return false;
     	}
     }
-    private void crearAlmacen(String nombre, ArrayList<Producto> productos) {
+    public void crearAlmacen(String nombre, ArrayList<Producto> productos) {
     	this.almacenes.add(new Almacen(nombre, productos));
     }
     
-    private void reponerMaquina(String almacen, Maquina maquina, Producto producto) {
+    public Almacen buscarAlmacen(String nombre) {
+        for (Almacen a : almacenes) {
+            if (a.getNombre().equals(nombre)) {
+                return a;
+            }
+        }
+        return null;
+    }
+    
+    public void reponerMaquina(String almacen, Maquina maquina, Producto producto) {
     	for(Almacen a: this.almacenes) {
     		if(a.getNombre().equals(almacen)) {
     			a.reponerMaquina(maquina, producto);
@@ -84,26 +134,9 @@ public class Gestor {
     }
     
     
-    public void listarMaquinasReposicion() {    	
+    public void listarMaquinasReposicion() {
     	for(Maquina m:maquinas) {
     		m.comprobarNecesidadReposicion();
-    	}
-    }
-    
-    public void listarMaquinasCoordenadas(float xMin, float xMax, float yMin, float yMax) throws Exception {
-    	
-    	if(xMax < xMin || yMax < yMin) {
-    		Exception e = new Exception();
-    		throw e;
-    	}
-    	
-    	for(Maquina m:maquinas) {
-    		float xCord = m.getCoordX();
-    		float yCord = m.getCoordY();
-    		
-    		if(xCord < xMax && xCord > xMin && yCord < yMax && yCord > yMin) {
-    			m.informacion();
-    		}
     	}
     }
 }

@@ -28,8 +28,7 @@ public class Maquina {
 		this.coordenadas[0] = coordenadaX;
 		this.coordenadas[1] = coordenadaY;
 		this.capacidad=capacidad;
-		if(productos==null || productos.isEmpty()) this.slots=0;
-		else this.slots=productos.size();
+		this.slots = productos.size();
 		this.estaOperativa=estaOperativa;
 		this.productos=productos;
 		this.fechaReposicion=null;
@@ -48,6 +47,7 @@ public class Maquina {
     }
     
     public void actualizarMaquina(int capacidad, boolean estaOperativa) {
+	    if (capacidad<=0) throw new IllegalArgumentException("La capacidad debe ser positiva");
     	this.capacidad = capacidad;
     	this.estaOperativa=estaOperativa;
     }
@@ -74,11 +74,9 @@ public class Maquina {
     
     //Función que comprueba si algún producto de la máquina debe ser repuesto
     public void comprobarNecesidadReposicion() {
-    	if(productos==null) throw new NullPointerException("La lista de productos no puede ser nula");
-    	
     	for(Producto p:productos) {
     		int dias = Estimacion.calcularEstimacion(this, p);
-    		if(dias<=3) System.out.println("Máquina " + id + ": Reposición necesaria para el producto " + p.getNombre());
+    		if(dias<=3) System.out.println("Máquina" + id + ": Reposición necesaria para el producto " + p.getNombre());
     	}
     }
     

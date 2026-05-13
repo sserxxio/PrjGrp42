@@ -39,17 +39,22 @@ class GestorTest {
 
         Maquina maquina = gestor.buscarMaquina(1);
 
-        assertAll("Verificar atributos de la máquina",
-                () -> assertNotNull(maquina, "La máquina no debería ser null"),
-                () -> assertEquals(1, maquina.getId()),
-                () -> assertEquals(0.00f, maquina.getCoordX()),
-                () -> assertEquals(1.00f, maquina.getCoordY()),
-                () -> assertEquals(20, maquina.getCapacidad()),
-                () -> assertTrue(maquina.estaOperativa()),
-                () -> assertEquals(productos, maquina.getProductos())
-            );
+        assertNotNull(maquina, "La máquina no debería ser null");
+        assertEquals(1, maquina.getId());
+        assertEquals(0.00f, maquina.getCoordX());
+        assertEquals(1.00f, maquina.getCoordY());
+        assertEquals(20, maquina.getCapacidad());
+        assertTrue(maquina.estaOperativa());
+        assertEquals(productos, maquina.getProductos());
     }
-
+	
+	@DisplayName("Prueba registrarMaquina: id negativo")
+    @Test
+    void testRegistrarMaquina_idNegativo() {
+		assertThrows(IllegalArgumentException.class, () -> {
+	        gestor.registrarMaquina(-1, 0.00f, 1.00f, 20, true, productos);
+	    });
+    }
 	
 	@DisplayName("Prueba registrarMaquina: id repetido")
     @Test
@@ -137,4 +142,18 @@ class GestorTest {
     		gestor.cargarMaquinaDesdeJSON("maquinasMal.json");
 	    });
     }
+    
+//PRUEBAS DE REGISTRAR ALMACÉN
+
+    @DisplayName("Prueba de Gestor: Registrar un almacén")
+    @Test
+    void testRegistrarAlmacenCorrecto() {
+    	gestor.crearAlmacen("Almaceneros",productos);
+    	Almacen almacen = gestor.buscarAlmacen("Almaceneros");
+    	assertNotNull(almacen, "El almacen no debería ser null");
+    	assertEquals("Almaceneros", almacen.getNombre());
+    }
+    
+    
+    ///////////////////////////////////////////////////////////////
 }
