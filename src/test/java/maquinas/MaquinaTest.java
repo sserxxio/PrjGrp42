@@ -13,13 +13,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class MaquinaTest {
-	static Maquina m;
+		static Maquina m;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		ArrayList<Producto> productos = new ArrayList<>();
+	    ArrayList<Producto> productos = new ArrayList<>();
 	    productos.add(new Producto("Botella", "CocaCola"));
-	    m = new Maquina(1, 0.00f, 1.00f, 20, true, productos);
+ 		m = new Maquina(1, 0.00f, 1.00f, 20, true, productos);
 	}
 	
 	// PRUEBAS DEL CONSTRUCTOR DE LA CLASE //
@@ -38,7 +38,7 @@ class MaquinaTest {
                 () -> assertEquals(null, maquina.getProductos())
             );
 	}
-	
+
 	@Test
 	@DisplayName("Constructor: id negativo")
 	void testConstructorIdNegativo() {
@@ -46,7 +46,7 @@ class MaquinaTest {
 	        Maquina maquina = new Maquina(-1, 0.00f, 1.00f, 20, true, null);
 	    });
 	}
-	
+
 	@Test
 	@DisplayName("Constructor capacidad negativa")
 	void testConstructorCapacidadNegativa() {
@@ -151,6 +151,29 @@ class MaquinaTest {
 			Maquina maquina =  new Maquina(1, 0.00f, 1.00f, 20, true, null);
 			maquina.comprobarNecesidadReposicion();
 	    });
+	}
+	@Test
+	@DisplayName("Prueba de Actualización de Máquina: caso válido capacidad")
+	void testActualizarCapacidadMaquinaCorrectamente() {
+		int nuevaCapacidad = 15;
+		m.actualizarMaquina(nuevaCapacidad, true);
+		assertEquals(m.getCapacidad(), nuevaCapacidad);
+	}
+	
+	@Test
+	@DisplayName("Prueba de Actualización de Máquina: caso inválido capacidad")
+	void testActualizarCapacidadMaquinaIncorrectamente() {
+		int nuevaCapacidad = -3;
+		assertThrows(Exception.class, () -> {
+			m.actualizarMaquina(nuevaCapacidad, true);
+	    });
+	}
+	
+	@Test
+	@DisplayName("Prueba de Actualización de Máquina: caso válido operatividad")
+	void testActualizarOperatividadMaquina() {
+		m.actualizarMaquina(m.getCapacidad(), false);
+		assertEquals(m.estaOperativa(), false);
 	}
 
 }

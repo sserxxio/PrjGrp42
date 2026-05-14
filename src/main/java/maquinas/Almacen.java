@@ -40,5 +40,17 @@ public class Almacen {
 			maquina.setInventario(inventario);
 		}
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		 if (o == this) {
+	            return true;
+	        }
+	        if (!(o instanceof Almacen)) {
+	            return false;
+	        }
+	       Almacen almacen = (Almacen)o;
+	       return this.nombre.equals(almacen.getNombre());	
+	}
 	
 }
