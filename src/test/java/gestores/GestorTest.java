@@ -49,7 +49,7 @@ class GestorTest {
                 () -> assertEquals(productos, maquina.getProductos())
             );
     }
-
+    
 	
 	@DisplayName("Prueba registrarMaquina: id repetido")
     @Test
@@ -137,4 +137,18 @@ class GestorTest {
     		gestor.cargarMaquinaDesdeJSON("maquinasMal.json");
 	    });
     }
+    
+//PRUEBAS DE REGISTRAR ALMACÉN
+
+    @DisplayName("Prueba de Gestor: Registrar un almacén")
+    @Test
+    void testRegistrarAlmacenCorrecto() {
+    	gestor.crearAlmacen("Almaceneros",productos);
+    	Almacen almacen = gestor.buscarAlmacen("Almaceneros");
+    	assertNotNull(almacen, "El almacen no debería ser null");
+    	assertEquals("Almaceneros", almacen.getNombre());
+    }
+    
+    
+    ///////////////////////////////////////////////////////////////
 }
