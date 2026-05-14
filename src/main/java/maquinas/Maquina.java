@@ -1,9 +1,8 @@
 package maquinas;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Maquina {
 	private int id;
@@ -48,6 +47,7 @@ public class Maquina {
     }
     
     public void actualizarMaquina(int capacidad, boolean estaOperativa) {
+	    if (capacidad<=0) throw new IllegalArgumentException("La capacidad debe ser positiva");
     	this.capacidad = capacidad;
     	this.estaOperativa=estaOperativa;
     }
@@ -74,8 +74,8 @@ public class Maquina {
     
     //Función que comprueba si algún producto de la máquina debe ser repuesto
     public void comprobarNecesidadReposicion() {
-    	if(productos==null) throw new NullPointerException("La lista de productos no puede ser nula");
-    	
+		if(productos==null) throw new NullPointerException("La lista de productos no puede ser nula");
+		
     	for(Producto p:productos) {
     		int dias = Estimacion.calcularEstimacion(this, p);
     		if(dias<=3) System.out.println("Máquina " + id + ": Reposición necesaria para el producto " + p.getNombre());

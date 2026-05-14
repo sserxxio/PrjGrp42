@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import maquinas.Maquina;
 
 
 public class Gestor {
@@ -23,6 +24,7 @@ public class Gestor {
 
     public Gestor() {
         this.maquinas = new ArrayList<>();
+        this.almacenes = new ArrayList<>();
     }
     
     public Maquina buscarMaquina(int id) {
@@ -71,11 +73,20 @@ public class Gestor {
     		return false;
     	}
     }
-    private void crearAlmacen(String nombre, ArrayList<Producto> productos) {
+    public void crearAlmacen(String nombre, ArrayList<Producto> productos) {
     	this.almacenes.add(new Almacen(nombre, productos));
     }
     
-    private void reponerMaquina(String almacen, Maquina maquina, Producto producto) {
+    public Almacen buscarAlmacen(String nombre) {
+        for (Almacen a : almacenes) {
+            if (a.getNombre().equals(nombre)) {
+                return a;
+            }
+        }
+        return null;
+    }
+    
+    public void reponerMaquina(String almacen, Maquina maquina, Producto producto) {
     	for(Almacen a: this.almacenes) {
     		if(a.getNombre().equals(almacen)) {
     			a.reponerMaquina(maquina, producto);
@@ -84,8 +95,10 @@ public class Gestor {
     }
     
     
-    public void listarMaquinasReposicion() {    	
-    	for(Maquina m:maquinas) {
+    public void listarMaquinasReposicion() {
+        if(maquinas==null) throw new NullPointerException("La lista de maquinas no puede ser nula");
+        
+        for(Maquina m:maquinas) {
     		m.comprobarNecesidadReposicion();
     	}
     }
