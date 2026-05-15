@@ -35,9 +35,15 @@ public class Almacen {
 	
 	public void reponerMaquina(Maquina maquina,Producto producto) {
 		HashMap<String, Integer> inventario = maquina.getInventario();
-		if(productos.contains(producto)) {
-			inventario.put(producto.getNombre(), maquina.getCapacidad());
-			maquina.setInventario(inventario);
+		if(!maquina.getProductos().contains(producto)) {
+			throw new IllegalArgumentException("La maquina no vende este producto");
+		}else {
+			if(productos.contains(producto)) {
+				inventario.put(producto.getNombre(), maquina.getCapacidad());
+				maquina.setInventario(inventario);
+			}else {
+				throw new IllegalArgumentException("El almacen no contiene este producto");
+			}
 		}
 	}
 
