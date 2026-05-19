@@ -25,4 +25,15 @@ public class Producto {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+	@Override
+	public boolean equals(Object o) {
+		 if (o == this) {
+	            return true;
+	        }
+	        if (!(o instanceof Producto)) {
+	            return false;
+	        }
+	       Producto producto = (Producto)o;
+	       return this.nombre.equals(producto.getNombre());	
+	}
 }

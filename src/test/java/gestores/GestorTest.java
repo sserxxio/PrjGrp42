@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -148,7 +150,122 @@ class GestorTest {
     	assertNotNull(almacen, "El almacen no debería ser null");
     	assertEquals("Almaceneros", almacen.getNombre());
     }
+//PRUEBAS DE NOTIFICAR REPOSICION
+    @DisplayName("Prueba de Gestor: Pasar una máquina que necesita reposición")
+    @Test
+    void testSacaNotificacion() {
+    	gestor.registrarMaquina(1, 0.00f, 1.00f, 2, true, productos);
+        Maquina maquina = gestor.buscarMaquina(1);
+        HashMap<String, Integer> inventario = new HashMap<>();
+        for(Producto p: productos){
+        	inventario.put(p.getNombre(), maquina.getCapacidad());
+        }
+        maquina.setInventario(inventario);
+        
+        maquina.venderProducto(productos.get(0));
+        maquina.setFechaReposicion(LocalDate.now());
+        
+        assertTrue(gestor.notificarReposicion(maquina, productos.get(0)));
+    }
+    @DisplayName("Prueba de Gestor: Pasar una máquina que no necesita reposición")
+    @Test
+    void testNOSacaNotificacion() {
+    	gestor.registrarMaquina(2, 0.00f, 1.00f, 30, true, productos);
+        Maquina maquina = gestor.buscarMaquina(2);
+        HashMap<String, Integer> inventario = new HashMap<>();
+        for(Producto p: productos){
+        	inventario.put(p.getNombre(), maquina.getCapacidad());
+        }
+        maquina.setInventario(inventario);
+        
+        maquina.venderProducto(productos.get(0));
+        maquina.setFechaReposicion(LocalDate.now());
+        
+        assertFalse(gestor.notificarReposicion(maquina, productos.get(0)));
+    }
+//PRUEBAS ELIMINAR MAQUINA
+    @DisplayName("Prueba de Gestor: Eliminar una máquina")
+    @Test
+    void testEliminarMaquina() {
+    	gestor.registrarMaquina(1, 0.00f, 1.00f, 30, true, productos);
+    	
+    	assertDoesNotThrow(() -> {
+    		gestor.eliminarMaquina(1);
+        });
+    }
     
+    @DisplayName("Prueba de Gestor: Eliminar una máquina que no existe")
+    @Test
+    void testEliminarMaquinaNoExiste() {
+    	gestor.registrarMaquina(1, 0.00f, 1.00f, 30, true, productos);
+    	
+    	assertThrows(IllegalArgumentException.class, () -> {
+    		gestor.eliminarMaquina(5);
+	    });
+    }
+//PRUEBAS REPONER DESDE ALMACEN
+    @DisplayName("Prueba de Gestor: Eliminar una máquina que no existe")
+    @Test
+    void testReponerArgumentos() {
+    	gestor.crearAlmacen("almacen1", productos);
+    	gestor.registrarMaquina(2, 0.00f, 1.00f, 30, true, productos);
+        Maquina maquina = gestor.buscarMaquina(2);
+        
+    	assertAll("Verificar atributos no nulos",
+                () -> assertThrows(IllegalArgumentException.class, () -> {
+            		gestor.reponerMaquina(null, null, null);
+        	    }),
+                () -> assertThrows(IllegalArgumentException.class, () -> {
+            		gestor.reponerMaquina("almacen1", maquina, null);
+        	    }),
+                () -> assertThrows(IllegalArgumentException.class, () -> {
+            		gestor.reponerMaquina(null, maquina, productos.get(0));
+        	    }),
+                () -> assertThrows(IllegalArgumentException.class, () -> {
+            		gestor.reponerMaquina("almacen1", null, productos.get(0));
+        	    }),
+                () -> assertDoesNotThrow(() -> {
+                	gestor.reponerMaquina("almacen1", maquina, productos.get(0));
+                })
+            );
+    }
+    @DisplayName("Prueba de Gestor: Existe almacen")
+    @Test
+    void testExisteAlmacen() {
+    	gestor.crearAlmacen("almacen1", productos);
+    	gestor.registrarMaquina(2, 0.00f, 1.00f, 30, true, productos);
+        Maquina maquina = gestor.buscarMaquina(2);
+    	
+    	assertThrows(IllegalArgumentException.class, () -> {
+    		gestor.reponerMaquina("almacen2", maquina, productos.get(0));
+	    });
+    }
     
+    @DisplayName("Prueba de Gestor: Coinciden los productos")
+    @Test
+    void testCoincidenProductos() {
+    	gestor.crearAlmacen("almacen1", productos);
+    	gestor.registrarMaquina(2, 0.00f, 1.00f, 30, true, productos);
+        Maquina maquina = gestor.buscarMaquina(2);
+        ArrayList<Producto> productos2 = new ArrayList<>();
+        productos2.add(new Producto("lata", "roncola"));
+        gestor.registrarMaquina(34, 0.00f, 1.00f, 30, true, productos2);
+        Maquina maquina2 = gestor.buscarMaquina(34);
+        gestor.crearAlmacen("almacen2", productos2);
+        assertAll("Verificar atributos no nulos",
+                () -> assertThrows(IllegalArgumentException.class, () -> {
+            		gestor.reponerMaquina("almacen1", maquina, new Producto("lata", "Fritas"));
+        	    }),
+                () -> assertThrows(IllegalArgumentException.class, () -> {
+            		gestor.reponerMaquina("almacen2", maquina, productos2.get(0));
+        	    }),
+                () -> assertThrows(IllegalArgumentException.class, () -> {
+            		gestor.reponerMaquina("almacen1", maquina2, productos2.get(0));
+        	    }),
+                () -> assertDoesNotThrow(() -> {
+                	gestor.reponerMaquina("almacen1", maquina, productos.get(0));
+                })
+            );
+    }
     ///////////////////////////////////////////////////////////////
 }

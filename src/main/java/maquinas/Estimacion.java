@@ -24,6 +24,9 @@ public class Estimacion {
 		 
 		 //Calculamos el promedio de producto vendido al día
 		 float dias = (float) (ChronoUnit.DAYS.between(ultimaReposicion, hoy)+0.01f);
+		 if(dias < 1) {
+			 dias = 1;
+		 }
 		 float numVentas = maquina.getVentas().getOrDefault(producto.getNombre(),0);
 		 if(numVentas==0) return 15; //Número arbitrariamente elevado para indicar que no hay prisa por reponer 
 		 

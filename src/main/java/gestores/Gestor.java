@@ -44,8 +44,13 @@ public class Gestor {
         maquinas.add(m);
     }
     
-    public void eliminarMaquina(int id) {
-    	this.maquinas.remove(buscarMaquina(id));
+    public void eliminarMaquina(int id) throws Exception {
+    	Maquina m = buscarMaquina(id);
+    	if(m == null) {
+    		throw new IllegalArgumentException("No existe ninguna máquina con el id: "+id);
+    	}else {
+    		this.maquinas.remove(m);
+    	}
     }
     
     public void mostrarInformacion(int id) throws Exception {
@@ -86,12 +91,23 @@ public class Gestor {
         return null;
     }
     
-    public void reponerMaquina(String almacen, Maquina maquina, Producto producto) {
+    public void reponerMaquina(String almacen, Maquina maquina, Producto producto) throws IllegalArgumentException{
+    	if(maquina == null) {
+    		throw new IllegalArgumentException("El argumento maquina no puede ser nulo");
+    	}
+    	if(almacen == null) {
+    		throw new IllegalArgumentException("El argumento almacen no puede ser nulo");
+    	}
+    	if(producto == null) {
+    		throw new IllegalArgumentException("El argumento producto no puede ser nulo");
+    	}
     	for(Almacen a: this.almacenes) {
     		if(a.getNombre().equals(almacen)) {
     			a.reponerMaquina(maquina, producto);
+    			return;
     		}
     	}
+    	throw new IllegalArgumentException("El almacen no existe");
     }
     
     
