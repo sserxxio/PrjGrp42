@@ -86,5 +86,61 @@ class EstimacionTest {
 	    });
 	}
 	
+	
+	//TESTS DE CAJA BLANCA
+	@Test
+	@DisplayName("Caja Blanca: Inventario nulo")
+	void testInventarioNulo() {
+		when(maquina.getInventario()).thenReturn(null);
+		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+			Estimacion.calcularEstimacion(maquina, producto);
+		});
+		assertEquals("El inventario no puede ser nulo", ex.getMessage());
+	}
+
+	@Test
+	@DisplayName("Caja Blanca: Fecha reposición nula")
+	void testFechaReposicionNula() {
+		when(maquina.getFechaReposicion()).thenReturn(null);
+
+		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+			Estimacion.calcularEstimacion(maquina, producto);
+		});
+		assertEquals("La fecha de reposición no puede ser nula", ex.getMessage());
+	}
+
+	@Test
+	@DisplayName("Caja Blanca: Ventas nulas")
+	void testVentasNulas() {
+		when(maquina.getVentas()).thenReturn(null);
+
+		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+			Estimacion.calcularEstimacion(maquina, producto);
+		});
+		assertEquals("Las ventas no pueden ser nulas", ex.getMessage());
+	}
+
+	@Test
+	@DisplayName("Caja Blanca: Nombre de producto nulo")
+	void testProductoNombreNulo() {
+		when(producto.getNombre()).thenReturn(null);
+
+		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+			Estimacion.calcularEstimacion(maquina, producto);
+		});
+		assertEquals("El nombre del producto no puede ser nulo", ex.getMessage());
+	}
+
+	@Test
+	@DisplayName("Caja Blanca: Nombre de producto vacío")
+	void testProductoNombreVacio() {
+		when(producto.getNombre()).thenReturn("");
+
+		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+			Estimacion.calcularEstimacion(maquina, producto);
+		});
+		assertEquals("El nombre del producto no puede ser nulo o vacío", ex.getMessage());
+	}
+	
 
 }

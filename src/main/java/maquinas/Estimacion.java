@@ -5,8 +5,6 @@ import java.time.temporal.ChronoUnit;
 
 public class Estimacion {
 
-	
-	
 	public static int calcularEstimacion(Maquina maquina, Producto producto) {
 		 if (maquina.getInventario() == null) 
 			 throw new IllegalArgumentException("El inventario no puede ser nulo");
