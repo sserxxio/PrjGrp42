@@ -267,5 +267,40 @@ class GestorTest {
                 })
             );
     }
+    
+    @DisplayName("Prueba de Gestor: Buscar máquinas por coordenadas")
+    @Test
+    void testBuscarCoordenadas() {
+    	
+    	gestor.registrarMaquina(1, 0.00f, 1.00f, 20, true, productos);
+    	gestor.registrarMaquina(2, 10.00f, 11.00f, 20, true, productos);
+    	gestor.registrarMaquina(3, 100.00f, 101.00f, 20, true, productos);
+    	
+    	ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        assertDoesNotThrow(() -> {
+        	gestor.listarMaquinasCoordenadas(5, 15, 5, 15);
+        });
+        
+        String salida = outContent.toString();
+
+        assertFalse(salida.contains("ID: 1"));
+        assertTrue(salida.contains("ID: 2"));
+        assertFalse(salida.contains("ID: 3"));
+    }
+    
+    @DisplayName("Prueba de Gestor: Buscar máquinas por coordenadas")
+    @Test
+    void testBuscarCoordenadasMal() {
+
+        assertThrows(Exception.class, () -> {
+        	gestor.listarMaquinasCoordenadas(15, 5, 5, 15);
+	    });
+        
+        assertThrows(Exception.class, () -> {
+        	gestor.listarMaquinasCoordenadas(5, 15, 15, 5);
+	    });
+    }
     ///////////////////////////////////////////////////////////////
 }
