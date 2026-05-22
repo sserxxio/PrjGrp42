@@ -64,6 +64,7 @@ class EstimacionTest {
 	@Test
 	@DisplayName("Prueba de Estimación: inventario vacío")
 	void testInventarioVacío() {
+		Estimacion estimar = new Estimacion();
 		when(maquina.getInventario()).thenReturn(new HashMap<>());
         assertThrows(Exception.class, () -> {
             Estimacion.calcularEstimacion(maquina, producto);
@@ -128,7 +129,7 @@ class EstimacionTest {
 		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
 			Estimacion.calcularEstimacion(maquina, producto);
 		});
-		assertEquals("El nombre del producto no puede ser nulo", ex.getMessage());
+		assertEquals("El nombre del producto no puede ser nulo o vacío", ex.getMessage());
 	}
 
 	@Test
